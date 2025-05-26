@@ -1,0 +1,59 @@
+import React from 'react'
+import axios from 'axios';
+import { useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useEffect } from 'react';
+
+const CafeByCategory = () => {
+
+    let [cafeByCategory, setCafeCategory] = useState([]);
+    const {category} = useParams();
+    const navigate = useNavigate()
+
+        useEffect(() => {
+          axios
+            .get(`http://localhost:4000/cafe/category/${encodeURIComponent(category)}`)
+            .then(response => {
+              console.log("Fetched Data:", response.data);
+              setCafeCategory(response.data.cafes);
+            })
+            .catch(error => {
+              console.log("Error fetching data", error);
+            });
+        }, [category]);
+
+  return (
+
+        <div style={{backgroundColor: "#f9f3e9", "display": "grid",
+        "grid-template-columns": "repeat(auto-fill, minmax(280px, 1fr))" ,
+        "gap": "20px", 
+        "padding": "20px"}} className='w-full grid grid-cols-auto gap-4 pt-5 gap-y-6 p-3 mt-5'>
+        {
+              cafeByCategory.map((cafe) => (
+                <div
+              key={cafe._id}
+              onClick={() => navigate(`/cafe/${cafe._id}`)}
+              className="relative w-full bg-white p-3 rounded-xl flex-col px-5 cursor-pointer group h-[260px]"
+            >
+              <img className="h-[70%] w-full rounded group-hover:opacity-65 transition-opacity duration-500" src={cafe.image} alt="" />
+              <p className="pt-2 font-medium text-xl text-zinc-800">{cafe.name}</p>
+              <p className="text-gray-500">{cafe.location}, {cafe.city}</p>
+              
+              {/* Wishlist Heart Button */}
+              <div className="absolute top-4 right-8 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                {/* <button onClick={(e) => handleHeartClick(e, cafe._id)}>
+                  <i className={`fa-${likedCafes[cafe._id] ? "solid" : "regular"} fa-heart text-${likedCafes[cafe._id] ? "red-500" : "black"}`} />
+                </button> */}
+              </div>
+          
+              <button className="absolute bottom-12 right-5 text-white text-sm px-3 py-1 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500 cursor-pointer" style={{ backgroundColor: "#764B36" }}>
+                Book now
+              </button>
+            </div>
+              ))
+        }
+    </div>
+  )
+}
+
+export default CafeByCategory
