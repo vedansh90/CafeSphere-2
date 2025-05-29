@@ -2,7 +2,7 @@ import validator from 'validator'
 import {v2 as cloudinary} from 'cloudinary'
 import cafeModel from '../models/cafeModel.js';
 import cafeOwnerModel from '../models/cafeOwnerModel.js';
-import bcrypt, { compareSync } from 'bcrypt'
+import bcrypt, { compareSync } from 'bcryptjs'
 import jwt from "jsonwebtoken"
 import userModel from '../models/userModel.js';
 import menuModel from '../models/menuModel.js';
