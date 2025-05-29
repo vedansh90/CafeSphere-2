@@ -6,7 +6,6 @@ import connectCloudinary from './config/cloudinary.js'
 import cafeownerRouter from './routes/cafeownerRoute.js'
 import userRouter from './routes/userRoute.js'
 import cafeRouter from './routes/cafeRoute.js'
-import parser from './middleware/multer.js'
 import "./utils/tokenScheduler.js";
 import paymentRouter from './routes/paymentRoute.js'
 import reviewRouter from './routes/reviewRoute.js'

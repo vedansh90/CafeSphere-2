@@ -1,10 +1,9 @@
 import express from 'express'
 import {addCafe, AddDrinks, AddItemToMenu, cafeIsOpenOrClose, cafeLogin, confirmbooking, deleleItemFromMenu, getCafes, getCafeStatus, getOneCafe, rejectbooking, verifyToken} from '../controllers/cafe-OwnerController.js'
-import upload from '../middleware/multer.js'
+
 
 const cafeownerRouter = express()
 
-cafeownerRouter.post("/add-cafe", upload.single('image'), addCafe);
 cafeownerRouter.get('/get-cafes', getCafes); 
 cafeownerRouter.post("/login", cafeLogin);
 cafeownerRouter.get("/owner-dashboard/:id", getOneCafe);
