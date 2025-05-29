@@ -4,7 +4,7 @@ import authMiddleware from '../middleware/authMiddleware.js';
 
 const reviewRouter = express();
 
-reviewRouter.get("/", allReview);
+reviewRouter.get("/:id", allReview);
 reviewRouter.post("/add-review", authMiddleware, addReview);
 
 export default reviewRouter;

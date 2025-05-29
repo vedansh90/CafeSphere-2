@@ -12,6 +12,7 @@ const CafeDetails = () => {
   const [comment, setComment] = useState("");
   const [star, setStar] = useState(0); // star rating from 1 to 5
   const [loading, setLoading] = useState(false);
+  
   useEffect(() => {
     window.scrollTo(0, 0);
     const fetchCafeDetails = async () => {
@@ -85,14 +86,6 @@ const CafeDetails = () => {
       );
 
       alert("Review submitted!");
-      setComment("");
-      setStar(0);
-      const response = await axios.get(`http://localhost:4000/review`, {
-        cafeId: id,
-      });
-      console.log("id, ", id);
-      setReviews(response.data);
-      console.log(response.data);
     } catch (error) {
       console.error("Error submitting review:", error);
       alert("Failed to submit review.");
@@ -100,6 +93,34 @@ const CafeDetails = () => {
       setLoading(false);
     }
   };
+
+  const [reviewData, setReviewdata] = useState([]);
+
+  useEffect(() => {
+  const fetchReviews = async () => {
+    try {
+      console.log("id", id);
+      const response = await axios.get(`http://localhost:4000/review/${id}`);
+       if (Array.isArray(response.data.reviews)) {
+        setReviewdata(response.data.reviews);
+        console.log("Reviews:", response.data.reviews);
+      } else {
+        console.warn("Expected an array but got:", response.data.reviews);
+        setReviewdata([]); // fallback
+      }
+    } catch (error) {
+      console.error("Error fetching cafe reviews:", error);
+    }
+  };
+
+  if (id) {
+    fetchReviews();
+  }
+}, [id]);
+
+useEffect(() => {
+  console.log("Updated reviewData:", reviewData);
+}, [reviewData]);
 
   return (
     <div>
@@ -121,14 +142,14 @@ const CafeDetails = () => {
             Featured
           </span>
           <span className="text-3xl font-bold">{cafe.name}</span>
-          <span>(28 reviews)</span>
+          <span>({reviewData.length || "12"} reviews)</span>
         </div>
         {/* right */}
 
         <div className="flex flex-col justify-end">
-          <div className="px-6 py-2 bg-gray-100 rounded-2xl flex justify-between items-center  ">
-            <p className="text-sm text-gray-700">Table Charges</p>
-            <p className="text-base font-semibold text-black">
+          <div className="px-2 py-2 bg-[#f9f3e9] rounded-2xl flex gap-2 items-center  ">
+            <p className="text-[#764B36]">Table Charges: </p>
+            <p className="text-[#764B36]">
               {cafe.tableCharge}
             </p>
           </div>
@@ -395,16 +416,16 @@ const CafeDetails = () => {
 
             <div className="mt-6">
               <h3 className="text-xl font-semibold mb-4">Customer Reviews</h3>
-              {reviews.length === 0 ? (
+              {reviewData.length === 0 ? (
                 <p>No reviews yet.</p>
               ) : (
-                reviews.map((review) => (
+                reviewData.map((review) => (
                   <div
                     key={review.id || review._id}
                     className="border-b border-gray-300 py-3"
                   >
                     <p className="font-medium">
-                      {review.user || review.username || "Anonymous"}
+                      {review.user.name || "Anonymous"}
                     </p>
                     <p>{review.comment}</p>
                     <p>

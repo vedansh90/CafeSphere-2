@@ -44,9 +44,9 @@ const addReview = async (req, res) => {
 
 const allReview = async (req, res) => {
     try{
-        const {cafeId} = req.body;
+        const {id} = req.params;
 
-        const cafe = await cafeModel.findById(cafeId)
+        const cafe = await cafeModel.findById(id)
        .populate({
             path: "reviews",
             populate: [
