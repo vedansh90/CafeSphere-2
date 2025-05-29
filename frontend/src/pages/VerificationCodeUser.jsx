@@ -16,11 +16,14 @@ const VerificationCodeUser = () => {
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
-            const res = await axios.post("http://192.168.1.2:4000/user/login/reset-password", { otp: verificationCode });
+            const res = await axios.post("http://localhost:4000/user/login/reset-password", { otp: verificationCode });
 
             if (res.data.success) {
                 setMessage("Verification successful!");
-                setTimeout(() => navigate("/"), 500);
+                setTimeout(() => navigate("/login/forgot-password/verification-code/new-password"), 500);
+                localStorage.setItem("resetToken", res.data.resetToken);
+                const token = localStorage.getItem("resetToken");
+                console.log("token in otp is -> ", token);
             } else {
                 setMessage("Invalid verification code. Please try again.");
             }

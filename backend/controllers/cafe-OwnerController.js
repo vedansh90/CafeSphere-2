@@ -16,11 +16,11 @@ import rejectBooking from '../utils/rejectBooking.js';
 
 const addCafe = async (req, res) => {
     try{
-        const {name, email, password, ownerName, location, city, image, contactNo, slots_booked} = req.body;
-        const imageFile = req.file
+        const {name, email, password, ownerName, location, city, contactNo, tableCharge} = req.body;
+        // const imageFile = req.file
 
         // checking for all data to add cafe
-        if(!name || !email ||!ownerName || ! location || !city || !contactNo || !password){
+        if(!name || !email ||!ownerName || ! location || !city || !contactNo || !password || !tableCharge){
             return res.json({success: false, message: "Missing details"})
         }
 
@@ -49,7 +49,8 @@ const addCafe = async (req, res) => {
             ownerName,
             location,
             city,
-            contactNo
+            contactNo,
+            tableCharge
         }
         
         const newcafe = new cafeModel(cafeData)
@@ -166,25 +167,31 @@ const AddItemToMenu = async (req, res) => {
     }
 }
 
-const getMenu = async (req, res) => {
-
+const deleleItemFromMenu = async (req, res) => {
     try{
+        let {menuId} = req.body;
         let {id} = req.params;
 
-        const cafe = await cafeModel.findById(id).populate({
-            path: "menu", 
-            model: "Menu",
-            select: "itemName price", 
-        });
+        const cafe = await cafeModel.findOneAndUpdate(
+            { _id: id }, 
+            { $pull: { menu: menuId } },
+            { new: true }
+          );
+      
+          if (!cafe) {
+            return res.status(404).json({ message: 'Cafe not found' });
+          }
+      
+          const menuItem = await menuModel.findByIdAndDelete(menuId);
+      
+          if (!menuItem) {
+            return res.status(404).json({ message: 'Menu item not found' });
+          }
 
-        if(!cafe){
-            return res.json({success: false, message: "Cafe Not found"});
-        }
-
-        return res.json({success: true, menu: cafe.menu})
+          res.json({success: true, message: "Menu Removed Successfully"});
     }
     catch(err){
-        res.json({success: false, message: err.message});
+
     }
 }
 
@@ -231,7 +238,7 @@ const confirmbooking = async (req, res) => {
         booking.status = "Confirmed";
         await booking.save();
 
-        confirmBooking(booking.email, booking.bookingName);
+        confirmBooking(booking.email, booking.bookingName, booking._id);
 
         res.json({success: true, message: "Booking confirm"});
     }
@@ -298,4 +305,35 @@ const verifyToken = async (req, res) => {
     }
 }
 
-export {addCafe, getCafes, cafeLogin, getOneCafe, AddItemToMenu, getMenu, AddDrinks, confirmbooking, rejectbooking, verifyToken};
+const cafeIsOpenOrClose = async (req, res) => {
+     const { id } = req.body;
+
+    try {
+        const cafe = await cafeModel.findById(id);
+
+    if (!cafe) return res.status(404).json({ message: 'Cafe not found' });
+
+    // Toggle the current isOpen value
+    cafe.isOpen = !cafe.isOpen;
+
+    await cafe.save();
+
+    res.json({ message: `Cafe is now ${cafe.isOpen ? 'Open' : 'Closed'}`, isOpen: cafe.isOpen });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+}
+
+const getCafeStatus = async (req, res) => {
+     const { id } = req.params;
+        try {
+            const cafe = await cafeModel.findById(id);
+            if (!cafe) return res.json({ message: 'Cafe not found' });
+
+            res.json({ isOpen: cafe.isOpen });
+        } catch (err) {
+            res.status(500).json({ error: err.message });
+        }
+}
+
+export {addCafe, getCafes, cafeLogin, getOneCafe, AddItemToMenu, deleleItemFromMenu, AddDrinks, confirmbooking, rejectbooking, verifyToken, cafeIsOpenOrClose, getCafeStatus};

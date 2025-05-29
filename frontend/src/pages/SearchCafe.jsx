@@ -53,7 +53,7 @@ const SearchCafe = () => {
                 <div
               key={cafe._id}
               onClick={() => navigate(`/cafe/${cafe._id}`)}
-              className="relative w-full bg-white p-3 rounded-xl flex-col px-5 cursor-pointer group"
+              className="relative w-full bg-white p-3 rounded-xl flex-col px-5 cursor-pointer group h-[260px]"
             >
               <img className="h-[70%] w-full rounded group-hover:opacity-65 transition-opacity duration-500" src={cafe.image} alt="" />
               <p className="pt-2 font-medium text-xl text-zinc-800">{cafe.name}</p>
@@ -69,6 +69,19 @@ const SearchCafe = () => {
               <button className="absolute bottom-12 right-5 text-white text-sm px-3 py-1 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500 cursor-pointer" style={{ backgroundColor: "#764B36" }}>
                 Book now
               </button>
+
+              <div className="flex justify-end mb-4 absolute bottom-0 right-5">
+            <span
+              className={`px-2.5 rounded text-sm font-stretch-90% ${
+                cafe.isOpen
+                  ? 'border border-green-300 text-green-500'
+                  : 'border border-red-300 text-red-500'
+              }`}
+            >
+              {cafe.isOpen ? 'Open' : 'Closed'}
+            </span>
+          </div>
+
             </div>
               ))
         }

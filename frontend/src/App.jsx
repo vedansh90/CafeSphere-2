@@ -18,8 +18,13 @@ import BookCafe from "./pages/BookCafe"
 import SearchCafe from "./pages/SearchCafe"
 import ForgotPassUser from "./pages/ForgotPassUser"
 import VerificationCodeUser from "./pages/VerificationCodeUser"
+import NewPassword from "./pages/NewPassword"
+// import newPassword from "./pages/newPassword"
+
 import Profileuser from "./pages/Profileuser"
 import Signup from "./pages/signup"
+import CafeByCategory from "./pages/CafeByCategory"
+import CafePaymentPage from "./pages/CafePayment"
  
  
 
@@ -50,11 +55,25 @@ function App() {
         <Footer/>
         </>
       }/>
+      <Route path="/payment/:bookingId" element={
+        <>
+        <Navbar/>
+        <CafePaymentPage/>
+        <Footer/>
+         </>
+       }/>
       
       <Route path="/cafe/:id" element={
         <>
         <Navbar/>
         <CafeDetails/>
+        <Footer/>
+        </>
+      }/>
+      <Route path="/:category" element={
+        <>
+        <Navbar/>
+        <CafeByCategory/>
         <Footer/>
         </>
       }/>
@@ -90,6 +109,13 @@ function App() {
         <>
         <Navbar/>
         <VerificationCodeUser/>
+        <Footer/>
+        </>
+      }/>
+      <Route path="/login/forgot-password/verification-code/new-password" element={
+        <>
+        <Navbar/>
+        <NewPassword/>
         <Footer/>
         </>
       }/>

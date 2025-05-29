@@ -12,7 +12,7 @@ const ForgotPassUser = () => {
     const requestOTP = async (event) => {
         event.preventDefault();
         try{
-            const res = await axios.post("http://192.168.1.2:4000/user/login/forgot-password", 
+            const res = await axios.post("http://localhost:4000/user/login/forgot-password", 
             {email: userEmail});
             
             if(res.data.success){

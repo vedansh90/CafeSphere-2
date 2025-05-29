@@ -1,7 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
-// import deleteImage from "../assets/delet.png";
-import { useNavigate, useParams } from "react-router-dom";
+import deleteImage from "../assets/delet.png";
+import { useParams } from "react-router-dom";
+// import Loader from "../assets/original-0e6fdb1ed026c5d0c908737a6dbfdb42.png";
+import Loader from "../assets/original-0e6fdb1ed026c5d0c908737a6dbfdb42 (1).png";
+import { useNavigate } from "react-router-dom";
+
 import {
   User,
   CalendarCheck,
@@ -17,8 +21,6 @@ const Profileuser = () => {
   const { id } = useParams();
   const token = localStorage.getItem("token");
 
-  // const navigate = useNavigate();
-
   const [user, setUser] = useState(null);
   const [bookings, setBookings] = useState([]);
   const [savecafe, setsavecafe] = useState([]);
@@ -26,9 +28,26 @@ const Profileuser = () => {
   const [error, setError] = useState(null);
   const [activeSection, setActiveSection] = useState("profile");
   const [showModal, setShowModal] = useState(false);
-  
-  const [userImg, setUserImg] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+  const [formData, setFormData] = useState({});
+  const navigate = useNavigate();
+ const [userImg, setUserImg] = useState(null);
 
+  useEffect(() => {
+    if (user) {
+      setFormData({
+        name: user.name || "",
+        email: user.email || "",
+        contactNo: user.contactNo || "",
+        location: user.location || "",
+      });
+    }
+  }, [user]);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
   const removeFromWishlist = async (cafeId) => {
     const token = localStorage.getItem("token");
     try {
@@ -48,43 +67,25 @@ const Profileuser = () => {
     }
   };
 
-  const fileInputRef = useRef(null);
-
-const handleIconClick = () => {
-  if (fileInputRef.current) {
-    fileInputRef.current.click();
-    console.log("clicked");
-  }
-};
-
-const handleUpload = async (e) => {
-  const file = e.target.files[0];
-  // userImg = true;
-  if (!file) return;
-
-  const formData = new FormData();
-  formData.append('image', file);
-  console.log("working before")
-  try {
-    const res = await fetch('http://localhost:4000/upload', {
-      method: 'POST',
-      body: formData,
-    });
-    console.log("working after");
-    const data = await res.json();
-    console.log("Image URL:", data.imageUrl);
-    
-    
-    
-    // Optional: update user image state here
-    setUserImg(data.imageUrl);
-
-  } catch (error) {
-    console.error("Upload failed:", error);
-  }
-};
-
- 
+  const toggleEdit = async () => {
+    if (isEditing) {
+      try {
+        await axios.put(
+          `http://localhost:4000/user/profile/update-details`,
+          formData,
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
+        setUser((prev) => ({ ...prev, ...formData }));
+        alert("Profile updated successfully");
+      } catch (err) {
+        console.error("Error updating profile", err);
+        alert("Failed to update profile");
+      }
+    }
+    setIsEditing(!isEditing);
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -105,7 +106,6 @@ const handleUpload = async (e) => {
           }
         );
         setsavecafe(savedRes.data.savedCafes);
-        // console.log("Saved cafes, ", savecafe);
       } catch (err) {
         console.error(err);
         setError("Failed to fetch data");
@@ -122,7 +122,14 @@ const handleUpload = async (e) => {
     }
   }, [id, token]);
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center min-h-screen bg-[#F8F0C8]">
+        <img src={Loader} alt="Loading..." className="w-3xl" />
+      </div>
+    );
+  }
+
   if (error) return <p className="text-red-500">{error}</p>;
 
   return (
@@ -143,13 +150,13 @@ const handleUpload = async (e) => {
               />
               <i
                 className="fa-solid fa-pen-to-square absolute bottom-2 right-20 bg-[#f9f3e9] w-6 h-6 p-1.5 flex text-xs rounded-full cursor-pointer text-[#764B36]"
-                onClick={handleIconClick}
+                // onClick={handleIconClick}
               ></i>
               <input
                 type="file"
                 className="hidden"
-                ref={fileInputRef}
-                onChange={handleUpload}
+                // ref={fileInputRef}
+                // onChange={handleUpload}
 
               />
             </div>
@@ -208,45 +215,92 @@ const handleUpload = async (e) => {
             >
               Profile
             </p>
+
             <div className="flex flex-col py-4 px-2 gap-5 bg-white rounded">
               <div className="flex w-full justify-between px-2">
                 <p style={{ color: "#563C24" }} className="text-xl font-medium">
                   Personal Information
                 </p>
+
                 <button
+                  onClick={toggleEdit}
                   style={{ backgroundColor: "#F4E7DD" }}
                   className="px-4 py-1 rounded cursor-pointer"
                 >
-                  Edit
+                  {isEditing ? "Save" : "Edit"}
                 </button>
               </div>
+
               <div className="flex flex-col gap-4 pl-12">
                 <div className="flex w-2/4 justify-between">
                   <div className="py-1 px-4 rounded w-[160px]">
                     <p style={{ color: "#9948127D" }} className="text-lg">
                       Full Name
                     </p>
-                    <p className="font-medium truncate">{user.name}</p>
+                    {isEditing ? (
+                      <input
+                        type="text"
+                        name="name"
+                        value={formData.name}
+                        onChange={handleChange}
+                        className="border rounded px-2 py-1 w-full"
+                      />
+                    ) : (
+                      <p className="font-medium truncate">{user.name}</p>
+                    )}
                   </div>
+
                   <div className="py-1 px-4 rounded w-[160px]">
                     <p style={{ color: "#9948127D" }} className="text-lg">
                       Email
                     </p>
-                    <p className="font-medium truncate">{user.email}</p>
+                    {isEditing ? (
+                      <input
+                        type="email"
+                        name="email"
+                        value={formData.email}
+                        onChange={handleChange}
+                        className="border rounded px-2 py-1 w-full"
+                      />
+                    ) : (
+                      <p className="font-medium truncate">{user.email}</p>
+                    )}
                   </div>
                 </div>
+
                 <div className="flex w-2/4 justify-between">
                   <div className="py-1 px-4 rounded w-[160px]">
                     <p style={{ color: "#9948127D" }} className="text-lg">
                       Phone
                     </p>
-                    <p className="font-medium">+91 {user.contactNo}</p>
+                    {isEditing ? (
+                      <input
+                        type="text"
+                        name="contactNo"
+                        value={formData.contactNo}
+                        onChange={handleChange}
+                        className="border rounded px-2 py-1 w-full"
+                      />
+                    ) : (
+                      <p className="font-medium">+91 {user.contactNo}</p>
+                    )}
                   </div>
+
                   <div className="py-1 px-4 rounded w-[160px]">
                     <p style={{ color: "#9948127D" }} className="text-lg">
                       Address
                     </p>
-                    <p className="font-medium truncate">{user.location}</p>
+                    {isEditing ? (
+                      <input
+                        type="text"
+                        name="location"
+                        value={formData.location}
+                        onChange={handleChange}
+                        className="border rounded px-2 py-1 w-full"
+                      />
+                    ) : (
+                      <p className="font-medium truncate">{user.location}</p>
+                    )}
                   </div>
                 </div>
               </div>
@@ -262,7 +316,10 @@ const handleUpload = async (e) => {
             <div className="bg-white p-6 rounded-xl shadow-lg w-full">
               <div className="flex justify-between items-center mb-4">
                 <h3 className="text-2xl font-medium">Bookings</h3>
-                <button className="bg-[#F4E7DD] px-4 py-2 rounded-lg text-sm">
+                <button
+                  onClick={() => navigate("/")}
+                  className="bg-[#F4E7DD] px-4 py-2 rounded-lg text-sm cursor-pointer"
+                >
                   Find new cafés
                 </button>
               </div>
@@ -300,10 +357,10 @@ const handleUpload = async (e) => {
                       </p>
                       <p className="text-gray-700 text-sm">
                         Amount:{" "}
-                        <span className="font-medium">{booking.amount || "-"}</span>
+                        <span className="font-medium">{booking.amount}</span>
                       </p>
                       <div className="flex gap-2 mt-3">
-                        <button className="px-4 py-1 border rounded-lg" >
+                        <button className="px-4 py-1 border rounded-lg cursor-pointer"   onClick={() => navigate(`/cafe/${booking.cafe._id}`)}>
                           View cafe
                         </button>
                         {booking.status === "Upcoming" && (
@@ -333,6 +390,7 @@ const handleUpload = async (e) => {
                     </span>
                   </div>
                 ))}
+                <p>No cafes booked yet.</p>
               </div>
             </div>
           </div>
@@ -360,7 +418,7 @@ const CafeCard = ({ cafeid, name, location, rating, image, onRemove }) => {
     <div className="border border-[#E6B99D] rounded-xl p-4 shadow-sm w-[280px]">
       <div 
       style={{
-        backgroundImage: `url('${image}')`,
+        backgroundImage: `url(${image})`,
         backgroundSize: 'cover',
         backgroundPosition: 'center'
       }} className="relative w-full h-[180px] bg-gray-200 rounded-lg">
@@ -425,7 +483,6 @@ const CafeList = ({ cafes = [], onRemove }) => (
   </div>
 );
 
-// Settings Section (stub)
 const AccountSettings = () => {
   const [formData, setFormData] = useState({
     oldPassword: "",
@@ -435,24 +492,57 @@ const AccountSettings = () => {
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [showPasswordForm, setShowPasswordForm] = useState(false);
-  const [showModal, setShowModal] = useState(false); // Define the showModal state
-  const token = localStorage.getItem("token"); // You need to set this token properly.
+  const [showModal, setShowModal] = useState(false);
+  const token = localStorage.getItem("token");
+  const { id } = useParams();
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+  const handlePasswordChange = async () => {
+    if (formData.newPassword !== formData.confirmPassword) {
+      setErrorMessage("New passwords do not match.");
+      return;
+    }
+    try {
+      const response = await axios.put(
+        `http://localhost:4000/user/profile/change-password`,
+        formData,
+        {
+          headers: { Authorization:`Bearer ${token}` },
+        }
+      );
+      setSuccessMessage(response.data.message);
+      setFormData({
+        oldPassword: "",
+        newPassword: "",
+        confirmPassword: "",
+      });
+      setErrorMessage("");
+    } catch (error) {
+      setErrorMessage(
+        error.response?.data?.message || "Failed to change password"
+      );
+      setSuccessMessage("");
+    }
+  };
 
   const handleDeleteAccount = async () => {
     try {
-      const id = "user-id"; // Replace with the actual user ID you want to delete
-      await axios.delete(`http://localhost:4000/user/profile/${id}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      await axios.delete(
+        `http://localhost:4000/user/profile/delete-account`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
       alert("Account deleted successfully.");
-      window.location.href = "/login"; // Redirect to login page after deletion
+      window.location.href = "/login";
     } catch (error) {
       console.error("Error deleting account:", error);
     }
   };
 
   const DeleteModal = ({ isOpen, onClose, onDelete }) => {
-    if (!isOpen) return null; // Only show the modal if isOpen is true
+    if (!isOpen) return null;
     return (
       <div
         className="fixed inset-0  flex justify-center items-center z-50"
@@ -460,11 +550,10 @@ const AccountSettings = () => {
       >
         <div className="bg-white rounded-lg shadow-lg p-6 w-[90%] max-w-md text-center">
           <img
-            src={deleteImage} // Use the renamed variable
+            src={deleteImage}
             alt="Delete"
-            className="mx-auto mb-4 w-24 h-24"
+            className="mx-auto mb-4 w-32 h-24"
           />
-
           <h2 className="text-xl font-semibold text-red-700 mb-2">
             Are you sure you want to delete your account?
           </h2>
@@ -478,6 +567,8 @@ const AccountSettings = () => {
             <button
               className="px-4 py-2 bg-red-600 text-white rounded"
               onClick={() => {
+                localStorage.removeItem("token");
+                window.location.href = "/";
                 onDelete();
                 onClose();
               }}
@@ -490,50 +581,10 @@ const AccountSettings = () => {
     );
   };
 
-  const handleChange = (e) => {
-    setFormData((prev) => ({
-      ...prev,
-      [e.target.name]: e.target.value,
-    }));
-  };
+  
 
-  const handlePasswordUpdate = async (e) => {
-    e.preventDefault();
-    setSuccessMessage("");
-    setErrorMessage("");
-
-    if (formData.newPassword !== formData.confirmPassword) {
-      setErrorMessage("New password and confirmation do not match.");
-      return;
-    }
-
-    try {
-      const response = await axios.put(
-        "http://localhost:4000/user/profile/change-password",
-        {
-          oldPassword: formData.oldPassword,
-          newPassword: formData.newPassword,
-          confirmPassword: formData.confirmPassword,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
-      setSuccessMessage("Password updated successfully!");
-      setFormData({
-        oldPassword: "",
-        newPassword: "",
-        confirmPassword: "",
-      });
-    } catch (error) {
-      setErrorMessage(
-        error.response?.data?.message || "Failed to update password."
-      );
-    }
-  };
+     
+  
 
   return (
     <div>
@@ -544,6 +595,8 @@ const AccountSettings = () => {
         <h2 className="text-2xl font-semibold text-[#563C24]">
           Account Settings
         </h2>
+
+        {/* Notification Preferences */}
         <div className="mt-4">
           <h3 className="font-semibold">Notification Preferences</h3>
           <div className="flex items-center justify-between pb-2">
@@ -585,7 +638,7 @@ const AccountSettings = () => {
 
           {showPasswordForm && (
             <form
-              onSubmit={handlePasswordUpdate}
+              onSubmit={ handlePasswordChange}
               className="mt-4 p-4 border border-[#F0BB92] rounded-xl"
             >
               <h4 className="font-semibold text-[#563C24] mb-4 italic text-lg">
@@ -634,10 +687,17 @@ const AccountSettings = () => {
               >
                 Update Password
               </button>
+              {successMessage && (
+                <p className="text-green-600 mt-2">{successMessage}</p>
+              )}
+              {errorMessage && (
+                <p className="text-red-600 mt-2">{errorMessage}</p>
+              )}
             </form>
           )}
         </div>
 
+        {/* Danger Zone */}
         <div className="mt-4 border-t pt-4">
           <h3 className="font-semibold text-red-600">Danger Zone</h3>
           <p className="text-sm text-gray-600">
@@ -646,17 +706,18 @@ const AccountSettings = () => {
           </p>
           <button
             className="mt-2 px-4 py-2 bg-[#F4E7DD] text-red-600 rounded"
-            onClick={() => setShowModal(true)} // Set showModal to true when clicked
+            onClick={() => setShowModal(true)}
           >
             Delete Account
           </button>
         </div>
       </div>
+
       {/* Delete Modal */}
       <DeleteModal
         isOpen={showModal}
-        onClose={() => setShowModal(false)} // Close the modal when clicked
-        onDelete={handleDeleteAccount} // Pass the delete function
+        onClose={() => setShowModal(false)}
+        onDelete={handleDeleteAccount}
       />
     </div>
   );

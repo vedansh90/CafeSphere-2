@@ -14,7 +14,8 @@ const bookingSchema = mongoose.Schema({
     contactNo: {type: Number, required: true},
     status: {type: String, default: "Pending"},
     token: {type: String},
-    tokenSent: {type: Boolean, default:false}
+    tokenSent: {type: Boolean, default:false},
+    paymentStatus: {type: Boolean, default: false}
 });
 
 const bookingModel = mongoose.model('Booking', bookingSchema);

@@ -1,0 +1,429 @@
+@import url("https://fonts.googleapis.com/css2?family=Sorts+Mill+Goudy&display=swap");
+
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.part1 {
+  background-size: COVER;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-color: rgba(0, 0, 0, 0.895);
+}
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+  
+  
+  
+
+
+.hero {
+  padding: 90px 0;
+}
+
+.hero-content {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  color: #efe7dd;
+}
+
+.hero-text h1 {
+  color: #efe7dd;
+  width: 60%;
+  font-size: 60px;
+  text-align: center;
+  font-family: Roxborough cf regular;
+  font-weight: 500;
+  margin-bottom: -2px;
+}
+
+@media (min-width: 1200px){
+  .hero-text h1{
+    font-size: 55px;
+    margin-left: 35px;
+  }
+}
+.hero-text p {
+  font-family: sorts-mill-goudy-regular;
+  width: 38%;
+  color: #efe7dd;
+  text-align: left;
+  margin-left: 185px;
+  font-weight: 500;
+  line-height: 25px;
+  margin-bottom: 30px;
+  letter-spacing: 1px;
+}
+
+@media(min-width: 1200px){
+  .hero-text p{
+    margin-left: 160px;
+  }
+}
+.button {
+  background-color: #ff6600;
+  color: #fff;
+  padding: 15px 30px;
+  text-decoration: none;
+  border-radius: 20px;
+  transition: background-color 0.3s;
+  text-align: center;
+  display: inline-block;
+  font-weight: lighter;
+  margin-left: 25%;
+}
+
+@media(min-width: 1200px){
+  .button{
+    padding: 12px 25px;
+  }
+}
+.button:hover {
+  background-color: #e65c00;
+}
+
+.part1,
+.part2 {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.part1 {
+  background-image: linear-gradient(to right,
+      rgba(71, 68, 66, 0.3),
+      rgba(237, 109, 17, 0.384)),
+    url(https://images.unsplash.com/photo-1493857671505-72967e2e2760?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D);
+  height: 825px;
+}
+
+@media(min-width: 768px){
+
+  .part1{
+    height: 100vh;
+  }
+}
+.part2 {
+  background-image: url(" https://img.freepik.com/free-photo/cafe-bar-hotel-loft-style_1150-10724.jpg?t=st=1730046094~exp=1730049694~hmac=6eef7fe02338e56c1875e399f7253ac730f96ac9c968281a04ebf18901697bd3&w=1060");
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  font-family: sorts-mill-goudy-regular;
+}
+
+@media(min-width:768px){
+  .part2{
+    height: 100vh;
+  }
+}
+.container {
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.header h1 {
+  font-size: 60px;
+  color: #e0c7a5;
+  font-weight: 500;
+}
+
+@media(min-width:768px){
+  .header h1{
+    font-size: 50px;
+    margin-right: 50px;
+  }
+}
+.content {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.image-box {
+  width: 40%;
+}
+
+.image-box img {
+  width: 100%;
+  border-radius: 20px;
+}
+
+@media(min-width:768px){
+  .image-box{
+    width:38%;
+  }
+}
+.caption {
+  bottom: 0;
+  padding: 20px;
+  border-radius: 0 0 20px 20px;
+  color: #e0c7a5;
+}
+
+.caption h2 {
+  font-size: 24px;
+  margin-bottom: 10px;
+  text-align: center;
+  font-weight: 500;
+}
+
+@media(min-width:768px){
+  .caption h2{
+    font-size: 21px;
+    font-weight: 520;
+  }
+}
+.caption p {
+  font-size: 16px;
+  text-align: center;
+  font-weight: 500;
+  letter-spacing: 1px;
+}
+
+@media(min-width:768px){
+  .caption p{
+    font-size: 14px;
+  }
+}
+.background-container {
+  background-image:url(${page1});
+  background-size: cover;
+  background-position: center;
+  height: 100vh;
+  position: relative;
+  font-family: "Arial", sans-serif;
+}
+
+@media(min-width:768px){
+  .background-container{
+    height: 100vh;
+  }
+}
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  font-family: sorts-mill-goudy-regular;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: -50px;
+  padding: 230px;
+}
+
+.title {
+  color: #e0c7a5;
+  font-size: 70px;
+  margin-bottom: 50px;
+  font-weight: 500;
+  margin-top: -30px;
+}
+
+@media(min-width:768px){
+  .title{
+    font-size: 60px;
+  }
+}
+.steps-container {
+  display: flex;
+  width: 100%;
+  margin-top: 20px;
+}
+
+.step {
+  background-color: #ecc799;
+  padding: 20px;
+  border-radius: 90px;
+  width: 70%;
+  margin: 40px;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+@media(min-width: 768px){
+  .step{
+    border-radius: 80px;
+    width: 300px;
+    height: 63%;
+    padding-top: 10px;
+    margin: 25px;
+  }
+}
+.step h4 {
+  font-size: 1.5rem;
+  font-weight: 50;
+  margin-bottom: 15px;
+}
+
+@media(min-width: 768px){
+  .step h4{
+    /* max-width: 1920px; */
+    font-size: 1.2rem;
+  }
+}
+.step p {
+  font-size: 1rem;
+  line-height: 1.5;
+}
+@media(min-width:768px){
+  .step p{
+    font-size: 0.9rem;
+    font-weight: 50;
+  }
+}
+
+.about-container {
+  background-position: center;
+  height: 88vh;
+  font-family: sorts-mill-goudy-regular;
+  color: #f5edeb;
+  background-color: #764b36;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 auto;
+  padding: 50px 20px;
+}
+
+@media(min-width:768px){
+  .about-container{
+    height: 85vh;
+  }
+  
+}
+.about-text {
+  font-size: 18px;
+  margin-left: 5%;
+  line-height: 1.6;
+  width: 35%;
+  font-weight: 500;
+  letter-spacing: 1px;
+}
+
+@media(min-width:768px){
+  .about-text{
+    font-size: 14px;
+  }
+}
+.about-text h1 {
+  text-align: center;
+  font-size: 3em;
+  margin-bottom: 20px;
+  font-weight: 500;
+}
+
+.about-text p,
+.about-text ul {
+  margin-bottom: 20px;
+}
+
+.about-text ul {
+  list-style-type: disc;
+  padding-left: 20px;
+}
+
+.about-image {
+  width: 60%;
+  text-align: center;
+}
+
+.about-image img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 10px;
+}
+
+header {
+  height: 10%;
+}
+
+.cafe img {
+  height: 350px;
+  width: 100%;
+}
+
+@media(min-width:768px){
+  .cafe img{
+    height:37vh;
+  }
+}
+.image-section {
+  display: flex;
+}
+
+.image-section img {
+  margin-top: -4px;
+  width: 34%;
+  height: 220px;
+}
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 

@@ -13,6 +13,9 @@ const cafeSchema = mongoose.Schema({
     bookings : [{type: mongoose.Schema.Types.ObjectId, ref: "Booking"}],
     menu: [{type: mongoose.Schema.Types.ObjectId, ref: "Menu"}],
     drink: [{type: mongoose.Schema.Types.ObjectId, ref: "Drink"}],
+    reviews: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Review' }],
+    tableCharge: {type: Number, required:true},
+    isOpen: {type: Boolean, default: false}
 }, {minimize:false})
 
 const cafeModel = mongoose.model('Cafe', cafeSchema)

@@ -14,7 +14,12 @@ const userSchema = mongoose.Schema({
         type: Date, // Expiry time for OTP
     },
     bookings : [{type: mongoose.Schema.Types.ObjectId, ref: "Booking"}],
-    savedCafes: [{ type: mongoose.Schema.Types.ObjectId, ref: "Cafe" }] 
+    savedCafes: [{ type: mongoose.Schema.Types.ObjectId, ref: "Cafe" }],
+    reviews: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Review' }],
+    profilePhoto: {
+    data: Buffer,
+    contentType: String,
+  },
 });
 
 const userModel = mongoose.model('User', userSchema)

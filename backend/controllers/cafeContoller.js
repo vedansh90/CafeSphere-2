@@ -120,10 +120,19 @@ const getLocationCafes = async (req, res) => {
             ],
           });
 
-        if(cafes.length < 4){
-            const addtionalCafes = await cafeModel.aggregate([{ $sample: { size: 5 } }]);
-            cafes.push(...addtionalCafes);
-        }  
+        // if(cafes.length < 4){
+        //     const addtionalCafes = await cafeModel.aggregate([{ $sample: { size: 5 } }]);
+        //     cafes.push(...addtionalCafes);
+        // }  
+
+        if (cafes.length < 8) {
+            const needed = 8 - cafes.length;
+            const additionalCafes = await cafeModel.aggregate([{ $sample: { size: needed } }]);
+
+            cafes.push(...additionalCafes);
+        }
+
+
         console.log(cafes);
         res.json(cafes); 
     }catch(err){
@@ -132,4 +141,21 @@ const getLocationCafes = async (req, res) => {
     }
 }
 
-export {getCafe, bookCafe, searchCafe, getLocationCafes}
+const getCafeByCategory = async (req, res) => {
+    try{
+        const category = req.params.category;
+        const cafes = await cafeModel.find({categories: category});
+
+        if(!cafes){
+            return res.json({success: false, message: "Cafes not found"});
+        }
+
+        res.json({success: true, cafes});
+
+    }
+    catch(err){
+        res.json({success: false, message: err.message})
+    }
+}
+
+export {getCafe, bookCafe, searchCafe, getLocationCafes, getCafeByCategory}

@@ -8,6 +8,8 @@ import userRouter from './routes/userRoute.js'
 import cafeRouter from './routes/cafeRoute.js'
 import parser from './middleware/multer.js'
 import "./utils/tokenScheduler.js";
+import paymentRouter from './routes/paymentRoute.js'
+import reviewRouter from './routes/reviewRoute.js'
 
 
 
@@ -39,38 +41,37 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.use(express.urlencoded({extended: true}))
 
-app.post('/upload', parser.single('image'), (req, res) => {
-    try {
-      if (!req.file) {
-        return res.status(400).json({ error: 'No file uploaded' });
-      }
+// app.post('/upload', parser.single('image'), (req, res) => {
+//     try {
+//       if (!req.file) {
+//         return res.status(400).json({ error: 'No file uploaded' });
+//       }
       
-      console.log("Image upload successful:", req.file);
+//       console.log("Image upload successful:", req.file);
       
-      // Choose the appropriate property based on your storage
-      const imageUrl = req.file.path || req.file.location || req.file.url;
+//       // Choose the appropriate property based on your storage
+//       const imageUrl = req.file.path || req.file.location || req.file.url;
       
-      if (!imageUrl) {
-        return res.status(500).json({ error: 'Failed to determine file URL' });
-      }
+//       if (!imageUrl) {
+//         return res.status(500).json({ error: 'Failed to determine file URL' });
+//       }
       
-      res.json({ imageUrl });
-    } catch (error) {
-      console.error("Upload error:", error);
-      res.status(500).json({ error: 'File upload failed' });
-    }
-  });
+//       res.json({ imageUrl });
+//     } catch (error) {
+//       console.error("Upload error:", error);
+//       res.status(500).json({ error: 'File upload failed' });
+//     }
+//   });
   
 
-//   app.get("/upload", (req, res) => {
-//     return res.json({message: "Working fine"});
-//   })
+
 
 // Api endpoints
 app.use("/owner", cafeownerRouter); 
 app.use("/user", userRouter)
 app.use("/cafe", cafeRouter)
-
+app.use("/payment", paymentRouter)
+app.use("/review", reviewRouter)
   
 
 app.get("/", (req, res) => {

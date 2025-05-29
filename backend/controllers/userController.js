@@ -138,7 +138,13 @@ const resetPassword = async (req, res) => {
             return res.json({ success: false, message: "OTP expired, please request a new one" });
         }
 
-        res.json({success: true, message: "OTP Verified Successfully"});
+         const resetToken = jwt.sign(
+            { id: user._id },
+            process.env.JWT_SECRET,
+            { expiresIn: "10m" }
+            );
+
+        res.json({success: true, message: "OTP Verified Successfully", resetToken});
     }catch(err){
         console.log("Reset password error");
         res.json({success: false, message: err.message});
@@ -172,6 +178,44 @@ const userProfile = async (req, res) => {
         res.json({success: true, user});
     }catch(err){
         res.json({ message: err.message });
+    }
+}
+
+const makeNewPasswordFromForgot = async (req, res) => {
+    
+    try{
+        const user = await userModel.findById(req.user.id);
+
+        if(!user){
+            console.log("user not found")
+            console.log(req.user.id);
+            return res.json({success: false, message: "User not found"});
+        }
+
+        const {newPassword, confirmPassword} = req.body;
+
+        if(!newPassword || !confirmPassword){
+            return res.json({success: false, message: "All feilds are requires"})
+        }
+
+        if(newPassword != confirmPassword){
+            console.log("password not match")
+            return res.json({success: false, message: "Passwords do not match"});
+        }
+
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(newPassword, salt);
+
+        user.password = hashedPassword;
+        await user.save();
+
+        console.log("Password Changed succesfully");
+        res.json({success: true, message: "Password updated Successfully"});
+
+    }
+    catch(err){
+        console.log("error")
+        res.json({success: false, message: err.message});
     }
 }
 
@@ -349,11 +393,26 @@ const updateUserDetails = async (req, res) => {
         res.json({success: true, message: ""})
     }
     catch(err){
+        res.json({success: false, message: err.message});
+    }
+}
 
+const oneBookingOfUser = async (req, res) => {
+    try{
+        const {id} = req.params;
+
+        const booking = await bookingModel.findById(id)
+        .populate('cafe', 'image tableCharge name'); 
+        if(!booking){
+            return res.json({success: false, message: "Booking not found"});
+        }
+
+        res.json({success: true, message: "cafe send", booking})
+    }
+    catch(err){
+        res.json({success: false, message: err.message});
     }
 }
 
 
-
-
-export {userLogin, userSignup, forgotPassword, resetPassword, userProfile, saveCafeToUser, savedCafes, bookedCafes, ProfileChangePassword, deleteUserAccount, updateUserDetails, removeCafeFromWishlist}
+export {userLogin, userSignup, forgotPassword, resetPassword, makeNewPasswordFromForgot, userProfile, saveCafeToUser, savedCafes, bookedCafes, ProfileChangePassword, deleteUserAccount, updateUserDetails, removeCafeFromWishlist, oneBookingOfUser}

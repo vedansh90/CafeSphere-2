@@ -59,36 +59,42 @@ const Navbar = () => {
               <li className="text-[#764B36] font-medium hover:underline">Contact</li>
             </NavLink>
             {isstate ? (
-              <div className="relative group cursor-pointer">
-                <div className="flex items-center gap-2">
-                  <img
-                    className="w-[30px] h-[30px] rounded-full"
-                    src="https://img.freepik.com/free-vector/illustration-user-avatar-icon_53876-5907.jpg"
-                    alt="avatar"
-                  />
-                  <i className="fa-solid fa-chevron-down text-sm text-[#764B36]"></i>
-                </div>
-                <div className="absolute right-0 pt-2 hidden group-hover:block">
-                  <div className="bg-gray-100 p-4 w-32 rounded-3xl shadow-lg">
-                    <NavLink to={`/profile/${userId}`} className="block mb-2 text-sm hover:underline">
-                      My Profile
-                    </NavLink>
-                    <span onClick={handleLogout} className="block text-sm text-red-500 hover:underline cursor-pointer">
-                      Logout
-                    </span>
-                  </div>
-                </div>
-              </div>
+             
+             
+             <NavLink to={`/profile/${userId}`}>
+             <img
+               className="w-[30px] h-[30px] rounded-full cursor-pointer"
+               src="https://img.freepik.com/free-vector/illustration-user-avatar-icon_53876-5907.jpg"
+               alt="avatar"
+             />
+           </NavLink>
+             
+             
+             
+             
+             
+             
+             
+             
+             
+             
+             
+             
+             
+             
+             
+             
+             
             ) : (
               <>
                 <NavLink to="/add-cafe">
                   <li className="text-[#764B36] font-medium hover:underline">Add Cafe</li>
                 </NavLink>
                 <NavLink to="/login">
-                  <li className="text-[#764B36] font-medium hover:underline">Register</li>
+                  <li className="text-[#764B36] font-medium hover:underline">Sign in</li>
                 </NavLink>
                 <NavLink to="/sign">
-                  <li className="text-[#764B36] font-medium hover:underline">Sign in</li>
+                  <li className="text-[#764B36] font-medium hover:underline">Register</li>
                 </NavLink>
               </>
             )}
@@ -126,10 +132,10 @@ const Navbar = () => {
             ) : (
               <>
                 <NavLink to="/login">
-                  <li className="text-[#764B36] font-medium">Register</li>
+                  <li className="text-[#764B36] font-medium">Sign in </li>
                 </NavLink>
                 <NavLink to="/sign">
-                  <li className="text-[#764B36] font-medium">Sign in</li>
+                  <li className="text-[#764B36] font-medium">Register</li>
                 </NavLink>
               </>
             )}

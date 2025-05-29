@@ -34,18 +34,8 @@ const AddCafe = () => {
             }
 
             try {
-                const token = localStorage.getItem("token");
-                if (!token) {
-                    alert("Please login to add a cafe");
-                    return;
-                }
 
-                const response = await axios.post('http://localhost:4000/owner/add-cafe', formData, {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                        "Content-Type": "application/json",
-                    },
-                });
+                const response = await axios.post('http://localhost:4000/owner/add-cafe', formData);
 
                 if (response.data.success) {
                     alert("Cafe Added Successfully");
@@ -61,6 +51,7 @@ const AddCafe = () => {
                         bio: "",
                         image: "",
                         categories: "",
+                        tableCharge: "",
                     });
                     navigate("/");
                 } else {
@@ -186,14 +177,34 @@ const AddCafe = () => {
                         </div>
 
                         {/* Image URL */}
-                        <div className="flex justify-center mt-4">
-                            <div className="flex flex-col w-full sm:w-[780px]">
-                                <label htmlFor="images">Cafe Image URL</label>
-                                <input type="text" name="images" value={formData.images} onChange={handleChange} placeholder="Cafe Image URL"
-                                    className="bg-[#F4E7DD] p-6 rounded-md border border-gray-300 focus:ring-2 focus:ring-orange-500"
-                                    required />
-                            </div>
-                        </div>
+                        <div className="flex flex-col sm:flex-row justify-center gap-4 mt-4">
+ {/* Cafe Image URL */}
+ <div className="flex flex-col w-full sm:w-96">
+   <label htmlFor="image">Cafe Image URL</label>
+   <input
+     type="text"
+     name="image"
+     value={formData.image}
+     onChange={handleChange}
+     placeholder="Cafe Image URL"
+     className="bg-[#F4E7DD] p-2 rounded-md border border-gray-300 focus:ring-2 focus:ring-orange-500"
+     required
+   />
+ </div>
+ {/* Tables Charges */}
+ <div className="flex flex-col w-full sm:w-96">
+   <label htmlFor="tableCharge">Booking Amount</label>
+   <input
+     type="Number"
+     name="tableCharge"
+     value={formData.tableCharge}
+     onChange={handleChange}
+     placeholder="Enter Booking Charges"
+     className="bg-[#F4E7DD] p-2 rounded-md border border-gray-300 focus:ring-2 focus:ring-orange-500"
+     required
+   />
+ </div>
+</div>
 
                         {/* Contact */}
                         <div className="flex justify-center mt-4">

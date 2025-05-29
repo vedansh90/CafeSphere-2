@@ -49,6 +49,19 @@ const CafeByCategory = () => {
               <button className="absolute bottom-12 right-5 text-white text-sm px-3 py-1 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500 cursor-pointer" style={{ backgroundColor: "#764B36" }}>
                 Book now
               </button>
+              
+              <div className="flex justify-end mb-4 absolute bottom-0 right-5">
+  <span
+    className={`px-2.5 rounded text-sm font-stretch-90% ${
+      cafe.isOpen
+        ? 'border border-green-300 text-green-500'
+        : 'border border-red-300 text-red-500'
+    }`}
+  >
+    {cafe.isOpen ? 'Open' : 'Closed'}
+  </span>
+</div>
+
             </div>
               ))
         }
