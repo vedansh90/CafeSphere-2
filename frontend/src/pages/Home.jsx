@@ -22,12 +22,15 @@ const Home = () => {
       })
       .then(response => {
         console.log("Fetched Data:", response.data);
-        setCafes(response.data);
+        
+        // Make sure you're setting the array, not the whole object
+        setCafes(Array.isArray(response.data) ? response.data : response.data.cafes);
       })
       .catch(error => {
         console.log("Error fetching data", error);
       });
   }, []);
+  
 
   const [likedCafes, setLikedCafes] = useState({});
 
@@ -233,7 +236,7 @@ const savecafetowishlist = async (cafeId) => {
   "gap": "20px", 
   "padding": "20px"}} className='w-full grid grid-cols-auto gap-4 pt-5 gap-y-6 p-3'>
             {
-           cafes.map((cafe) => (
+           Array.isArray(cafes) && cafes.map((cafe) => (
             <div
               key={cafe._id}
               onClick={() => navigate(`/cafe/${cafe._id}`)}
