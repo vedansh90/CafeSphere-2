@@ -51,7 +51,7 @@ const Profileuser = () => {
   const removeFromWishlist = async (cafeId) => {
     const token = localStorage.getItem("token");
     try {
-      const res = await axios.delete(`http://localhost:4000/user/profile/save-cafe`, {
+      const res = await axios.delete(`https://cafesphere-2-backend.onrender.com/user/profile/save-cafe`, {
         headers: {
           Authorization: `Bearer ${token}`
         },
@@ -71,7 +71,7 @@ const Profileuser = () => {
     if (isEditing) {
       try {
         await axios.put(
-          `http://localhost:4000/user/profile/update-details`,
+          `https://cafesphere-2-backend.onrender.com/user/profile/update-details`,
           formData,
           {
             headers: { Authorization: `Bearer ${token}` },
@@ -91,7 +91,7 @@ const Profileuser = () => {
     const fetchData = async () => {
       try {
         const userRes = await axios.get(
-          `http://localhost:4000/user/profile/${id}`,
+          `https://cafesphere-2-backend.onrender.com/user/profile/${id}`,
           {
             headers: { Authorization: `Bearer ${token}` },
           }
@@ -100,7 +100,7 @@ const Profileuser = () => {
         setBookings(userRes.data.user.bookings);
 
         const savedRes = await axios.get(
-          `http://localhost:4000/user/saved-cafes`,
+          `https://cafesphere-2-backend.onrender.com/user/saved-cafes`,
           {
             headers: { Authorization: `Bearer ${token}` },
           }
@@ -505,7 +505,7 @@ const AccountSettings = () => {
     }
     try {
       const response = await axios.put(
-        `http://localhost:4000/user/profile/change-password`,
+        `https://cafesphere-2-backend.onrender.com/user/profile/change-password`,
         formData,
         {
           headers: { Authorization:`Bearer ${token}` },
@@ -529,7 +529,7 @@ const AccountSettings = () => {
   const handleDeleteAccount = async () => {
     try {
       await axios.delete(
-        `http://localhost:4000/user/profile/delete-account`,
+        `https://cafesphere-2-backend.onrender.com/user/profile/delete-account`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }

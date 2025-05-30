@@ -12,7 +12,7 @@ const Login = () => {
   const handleLogin = async (event) => {
     event.preventDefault();
     try {
-      const response = await axios.post('http://localhost:4000/user/login', {
+      const response = await axios.post('https://cafesphere-2-backend.onrender.com/user/login', {
         email,
         password,
       });

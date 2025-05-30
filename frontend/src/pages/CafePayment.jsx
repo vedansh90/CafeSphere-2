@@ -45,7 +45,7 @@ function CafePaymentPage() {
     const fetchBooking = async () => {
         console.log("hello");
       try {
-        const res = await axios.get(`http://localhost:4000/user/booking/${id.bookingId}`);
+        const res = await axios.get(`https://cafesphere-2-backend.onrender.com/user/booking/${id.bookingId}`);
         const booking = res.data.booking;
         setCafeName(booking.cafe.name);
         setTableCharge(booking.cafe.tableCharge);
@@ -135,7 +135,7 @@ function CafePaymentPage() {
         const token = localStorage.getItem("authToken");
 
         try {
-          const res = await fetch("http://localhost:4000/payment/create-order", {
+          const res = await fetch("https://cafesphere-2-backend.onrender.com/payment/create-order", {
             method: "POST",
             headers: {
               Authorization: `Bearer ${token}`,

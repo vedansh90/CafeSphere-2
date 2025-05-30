@@ -35,7 +35,7 @@ const BookCafe = () => {
             console.log("Sending booking data:", formData);
 
             const response = await axios.post(
-                `http://localhost:4000/cafe/${id}/book`,
+                `https://cafesphere-2-backend.onrender.com/cafe/${id}/book`,
                 formData,
                 { headers: { Authorization: `Bearer ${token}` } }
             );

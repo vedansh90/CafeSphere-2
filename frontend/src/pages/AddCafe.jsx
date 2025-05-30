@@ -35,7 +35,7 @@ const AddCafe = () => {
 
             try {
 
-                const response = await axios.post('http://localhost:4000/owner/add-cafe', formData);
+                const response = await axios.post('https://cafesphere-2-backend.onrender.com/owner/add-cafe', formData);
 
                 if (response.data.success) {
                     alert("Cafe Added Successfully");
@@ -63,7 +63,7 @@ const AddCafe = () => {
             }
         } else {
             try {
-                const response = await axios.post('http://localhost:4000/owner/login', {
+                const response = await axios.post('https://cafesphere-2-backend.onrender.com/owner/login', {
                     email: formData.email,
                     password: formData.password,
                 });

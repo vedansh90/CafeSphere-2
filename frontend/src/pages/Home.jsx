@@ -17,7 +17,7 @@ const Home = () => {
   console.log(token)
   useEffect(() => {
     axios
-      .get("http://localhost:4000/cafe/location/cafes", {
+      .get("https://cafesphere-2-backend.onrender.com/cafe/location/cafes", {
         headers: { Authorization: `Bearer ${token}` }
       })
       .then(response => {
@@ -47,7 +47,7 @@ const savecafetowishlist = async (cafeId) => {
   try {
     const response = await 
     axios.post(
-      "http://localhost:4000/user/save-cafe",
+      "https://cafesphere-2-backend.onrender.com/user/save-cafe",
       { cafeId },
       { headers: { Authorization: `Bearer ${token}` } }
     );
@@ -70,7 +70,7 @@ const savecafetowishlist = async (cafeId) => {
 
   const saveCafeToWishlist = async (cafeId) => {
     try{
-      const response = await axios.post(`http://localhost:4000/user/save-cafe`, {cafeId},
+      const response = await axios.post(`https://cafesphere-2-backend.onrender.com/user/save-cafe`, {cafeId},
         {
           headers: { Authorization: `Bearer ${token} `},
         }

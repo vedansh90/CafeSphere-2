@@ -17,7 +17,7 @@ const SearchCafe = () => {
         const fetchCafes = async () => {
           setLoading(true);
           try {
-            const res = await fetch(`http://localhost:4000/cafe/?search=${searchQuery}`);
+            const res = await fetch(`https://cafesphere-2-backend.onrender.com/cafe/?search=${searchQuery}`);
             const data = await res.json();
             setCafes(data);
             console.log(data);

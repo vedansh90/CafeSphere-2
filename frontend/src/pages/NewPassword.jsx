@@ -13,7 +13,7 @@ const newPassword = () => {
         const token = localStorage.getItem("resetToken");
         console.log("token is -> ", token);
         try{
-          const res = await axios.post("http://localhost:4000/user/login/make-new-password",
+          const res = await axios.post("https://cafesphere-2-backend.onrender.com/user/login/make-new-password",
             {
                 newPassword: newPassword,
                 confirmPassword: confirmPassword

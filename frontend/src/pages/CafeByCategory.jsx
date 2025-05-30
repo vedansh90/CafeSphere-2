@@ -12,7 +12,7 @@ const CafeByCategory = () => {
 
         useEffect(() => {
           axios
-            .get(`http://localhost:4000/cafe/category/${encodeURIComponent(category)}`)
+            .get(`https://cafesphere-2-backend.onrender.com/category/${encodeURIComponent(category)}`)
             .then(response => {
               console.log("Fetched Data:", response.data);
               setCafeCategory(response.data.cafes);

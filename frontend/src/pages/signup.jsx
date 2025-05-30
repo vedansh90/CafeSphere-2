@@ -22,7 +22,7 @@ const Signup = () => {
       return;
     }
     try {
-      const response = await axios.post('http://localhost:4000/user/signup', {
+      const response = await axios.post('https://cafesphere-2-backend.onrender.com/user/signup', {
         name,
         email,
         location,

@@ -37,7 +37,7 @@ const Dashboard = () => {
     window.scrollTo(0, 0);
     const fetchCafeDetails = async () => {
       try {
-        const response = await axios.get(`http://localhost:4000/owner/owner-dashboard/${id}`);
+        const response = await axios.get(`https://cafesphere-2-backend.onrender.com/owner/owner-dashboard/${id}`);
         setCafe(response.data);
         setBookings(response.data.bookings || []);
         console.log(response.data);
@@ -92,7 +92,7 @@ const Dashboard = () => {
   const handleConfirmBooking = async (id) => {
     console.log(id);
     try{
-      const res = await axios.post('http://localhost:4000/owner/owner-dashboard/confirm-booking', {
+      const res = await axios.post('https://cafesphere-2-backend.onrender.com/owner/owner-dashboard/confirm-booking', {
         id,
       });
 
@@ -115,7 +115,7 @@ const Dashboard = () => {
   const handleRejectBooking = async (id) => {
     console.log(id);
     try{
-      const res = await axios.post('http://localhost:4000/owner/owner-dashboard/reject-booking', {
+      const res = await axios.post('https://cafesphere-2-backend.onrender.com/owner/owner-dashboard/reject-booking', {
         id,
       });
 
@@ -145,7 +145,7 @@ const Dashboard = () => {
     e.preventDefault();
 
   try {
-    const response = await axios.post("http://localhost:4000/owner/owner-dashboard/verify-token", {
+    const response = await axios.post("https://cafesphere-2-backend.onrender.com/owner/owner-dashboard/verify-token", {
       token: inputValueToken,
     });
 
@@ -159,7 +159,7 @@ const Dashboard = () => {
     e.preventDefault();
 
     try {
-        const response = await axios.post(`http://localhost:4000/owner/owner-dashboard/${id}/menu`, {
+        const response = await axios.post(`https://cafesphere-2-backend.onrender.com/owner/owner-dashboard/${id}/menu`, {
         itemName: itemName,
         price: price,
     });
@@ -183,7 +183,7 @@ const Dashboard = () => {
       // e.preventDefault();
       
       try {
-          const response = await axios.delete(`http://localhost:4000/owner/owner-dashboard/${id}/menu`, {
+          const response = await axios.delete(`https://cafesphere-2-backend.onrender.com/owner/owner-dashboard/${id}/menu`, {
           data: {menuId},
       });
         console.log("Server response:", response.data);
@@ -200,7 +200,7 @@ const Dashboard = () => {
        useEffect(() => {
     const fetchStatus = async () => {
       try {
-        const res = await axios.get(`http://localhost:4000/owner/owner-dashboard/status/${id}`);
+        const res = await axios.get(`https://cafesphere-2-backend.onrender.com/owner/owner-dashboard/status/${id}`);
         setIsCafeOpen(res.data.isOpen);
       } catch (error) {
         console.error('Failed to fetch cafe status:', error);
@@ -212,7 +212,7 @@ const Dashboard = () => {
 
   const handleToggle = async () => {
     try {
-      await axios.put('http://localhost:4000/owner/owner-dashboard/status', { id });
+      await axios.put('https://cafesphere-2-backend.onrender.com/owner/owner-dashboard/status', { id });
 
       // ✅ Optimistically toggle status
       setIsCafeOpen((prev) => !prev);

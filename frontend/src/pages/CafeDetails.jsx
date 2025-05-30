@@ -17,7 +17,7 @@ const CafeDetails = () => {
     window.scrollTo(0, 0);
     const fetchCafeDetails = async () => {
       try {
-        const response = await axios.get(`http://localhost:4000/cafe/${id}`);
+        const response = await axios.get(`https://cafesphere-2-backend.onrender.com/cafe/${id}`);
         setCafe(response.data);
         console.log("id", id);
       } catch (error) {
@@ -100,7 +100,7 @@ const CafeDetails = () => {
   const fetchReviews = async () => {
     try {
       console.log("id", id);
-      const response = await axios.get(`http://localhost:4000/review/${id}`);
+      const response = await axios.get(`https://cafesphere-2-backend.onrender.com/review/${id}`);
        if (Array.isArray(response.data.reviews)) {
         setReviewdata(response.data.reviews);
         console.log("Reviews:", response.data.reviews);

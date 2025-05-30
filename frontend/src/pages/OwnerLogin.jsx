@@ -25,7 +25,7 @@ const OwnerLogin = () => {
     try {
         if (state === 'Signup') {
             // Signup Request
-            const response = await axios.post('http://192.168.1.2:4000/owner/signup', {
+            const response = await axios.post('https://cafesphere-2-backend.onrender.com/owner/signup', {
                 name,
                 email,
                 password,
@@ -39,7 +39,7 @@ const OwnerLogin = () => {
             }
         } else {  
             // Login Request
-            const response = await axios.post('http://192.168.1.2:4000/owner/login', {
+            const response = await axios.post('https://cafesphere-2-backend.onrender.com/owner/login', {
                 email,
                 password
             });
