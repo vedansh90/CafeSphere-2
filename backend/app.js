@@ -32,7 +32,7 @@ console.log("Loaded JWT Secret:", process.env.JWT_SECRET);
 
 app.use(express.json())
 const corsOptions = {
-    origin: 'http://localhost:5173',
+    origin: 'https://cafesphere.vercel.app',
     credentials: true,
     allowedHeaders: ['Content-Type', 'Authorization'],
     methods: ['GET', 'POST', 'PUT', 'DELETE']
